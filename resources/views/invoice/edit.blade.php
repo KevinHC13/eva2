@@ -21,13 +21,14 @@
 </div>
 </div>
 <div class="flex justify-center">
-<form action="{{ route('invoice.store') }}" method="POST" class="w-1/2 mt-4 mb-20 " novalidate>
+<form action="{{ route('invoice.update', $invoice) }}" method="POST" class="w-1/2 mt-4 mb-20 " novalidate>
     @csrf
+    @method('PUT')
     <div class="relative z-0 w-full mb-6 group">
         <label for="issuing_company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
         <select name="issuing_company_id" id="issuing_company_id" data-te-select-init data-te-select-filter="true">
             @foreach ($companies as $company)
-            <option value="{{ $company->id }}" {{ old('issuing_company_id') == $company->id ? 'selected' : '' }}>
+            <option value="{{ $company->id }}"  @if($invoice->issuing_company_id == $company->id) selected @endif>
                 {{ $company->name }}
             </option>
             @endforeach
@@ -41,16 +42,17 @@
         <label for="receiving_company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
         <select name="receiving_company_id" id="receiving_company_id" data-te-select-init data-te-select-filter="true">
             @foreach ($companies as $company)
-            <option value="{{ $company->id }}" {{ old('receiving_company_id') == $company->id ? 'selected' : '' }}>
-                {{ $company->name }}
-            </option>
+                <option value="{{ $company->id }}" @if($invoice->receiving_company_id == $company->id) selected @endif>
+                    {{ $company->name }}
+                </option>
             @endforeach
-          </select>
+        </select>
+        
         @error('receiving_company_id')
             <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
         @enderror
     <div class="mb-5">
-        <input type="hidden" value="{{ old('id_documents') }}" name="id_documents" id="id_documents">
+        <input type="hidden" value="{{ old('id_documents',$invoice->id_documents) }}" name="id_documents" id="id_documents">
         @error('id_documents')
             <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
         @enderror

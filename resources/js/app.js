@@ -1,3 +1,4 @@
+
 import './bootstrap';
 
 // Initialization for ES Users
@@ -50,4 +51,6 @@ dropzone.on("success", function (file, response) {
 
 dropzone.on("removedfile", function () {
   document.querySelector('[name="id_documents"]').value = "";
+  dropzone.removeAllFiles();
+  dropzone.options.maxFiles = 2;
 });

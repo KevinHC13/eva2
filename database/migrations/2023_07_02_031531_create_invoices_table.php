@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('issuing_company_id')->constrained('companies');
-            $table->foreignId('receiving_company_id')->constrained('companies');
+            $table->foreignId('issuing_company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('receiving_company_id')->constrained('companies')->onDelete('cascade');
             $table->string('folio')->unique();
             $table->string('id_documents');
             $table->timestamps();

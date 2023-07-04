@@ -36,13 +36,21 @@
                   <td class="py-4 px-6 border-b border-grey-light">{{ $invoice->folio }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $invoice->issuingCompany->name }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $invoice->receivingCompany->name }}</td>
-                  <td class="py-4 px-6 border-b border-grey-light flex justify-around">
+                  <td class="py-4 px-6 border-b border-grey-light text-center">
                     <a href="{{ route('invoice.download',$invoice->id_documents . '.xml') }}" class="text-grey-lighter  font-bold py-1 px-3 rounded border bg-sky-200 hover:bg-sky-300 transition-all text-xs bg-green hover:bg-green-dark">XML</a>
                     <a href="{{ route('invoice.download',$invoice->id_documents . '.pdf') }}" class="text-grey-lighter font-bold py-1 px-3 rounded border bg-sky-200 hover:bg-sky-300 transition-all text-xs bg-blue hover:bg-blue-dark">PDF</a>
                   </td>
                   <td class="py-4 px-6 border-b border-grey-light">
-                    <a href="#" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Edit</a>
-                    <a href="#" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-blue hover:bg-blue-dark">View</a>
+                    <a href="{{ route('invoice.edit', $invoice) }}" class="text-sky-600 font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Editar</a>
+                    <form action="{{ route('invoice.destroy', $invoice) }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <input 
+                        type="submit" 
+                        value="Eliminar"
+                        class="text-red-600 font-bold py-1 px-3 rounded text-xs bg-blue hover:bg-blue-dark  cursor-pointer"
+                        >
+                    </form>
                   </td>
                 </tr>
                 @endforeach
@@ -54,5 +62,6 @@
   </div>
 </div>
 
+{{$invoices->links()}}
 
 @endsection

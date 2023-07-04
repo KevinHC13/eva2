@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    public function __construct()
+    {
+        // Aplica el middleware 'auth' a todos los métodos excepto 'show' e 'index'
+        $this->middleware('auth');
+    }
     public function index()
     {
         $companies = Company::paginate(10);

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\InvoiceController;
@@ -40,6 +41,9 @@ Route::post('/crearCuenta', [RegisterController::class,'store']);
 Route::get('/facturas',[InvoiceController::class,'index'])->name('invoice.index');
 Route::get('/facturas/create',[InvoiceController::class, 'create'])->name('invoice.create');
 Route::post('/facturas',[InvoiceController::class, 'store'])->name('invoice.store');
+Route::delete('/facturas/{invoice}',[InvoiceController::class, 'destroy'])->name('invoice.destroy');
+Route::get('/facturas/{invoice}/edit',[InvoiceController::class,'edit'])->name('invoice.edit');
+Route::put('/facturas/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
 
 Route::post('/files',[FilesController::class,'store'])->name('files.store');
 Route::get('/files/{filename}',[InvoiceController::class, 'downloadFile'])->name('invoice.download');
@@ -50,3 +54,6 @@ Route::post('/empresas',[CompanyController::class, 'store'])->name('company.stor
 Route::delete('/empresa/{company}',[CompanyController::class, 'destroy'])->name('company.destroy');
 Route::get('/empresa/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
 Route::put('/empresa/{company}',[CompanyController::class, 'update'])->name('company.update');
+
+Route::get('/',[ClientController::class, 'index'])->name('client.index');
+Route::get('/search',[ClientController::class, 'search'])->name('client.search');

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         return view('auth.register');
@@ -43,6 +47,6 @@ class RegisterController extends Controller
         auth()->attempt($request->only('email','password'));
 
         // Redirecciona al muro del usuario
-        return redirect()->route('posts.index', $request->username);
+        return redirect()->route('invoice.index', $request->username);
     }
 }
