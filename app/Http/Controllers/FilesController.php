@@ -14,6 +14,21 @@ class FilesController extends Controller
         $nomres = [];
         $archivosPath = [];
         $id = Str::uuid();
+
+        $extention_validate = false;
+        
+        if (is_array($archivos) && count($archivos) >= 2) {
+            if ($archivos[0]->getClientOriginalExtension() == $archivos[1]->getClientOriginalExtension()) {
+                return response()->json([
+                    'res' => false
+                ]);
+            }
+        } else {
+            return response()->json([
+                'res' => false
+            ]);
+        }
+        
     
         foreach ($archivos as $archivo){
             $nombreArchivo = $id . '.' . $archivo->getClientOriginalExtension();

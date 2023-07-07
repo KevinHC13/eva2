@@ -2,8 +2,8 @@
 import './bootstrap';
 
 // Initialization for ES Users
-import { Select, initTE } from "tw-elements";
-initTE({ Select });
+import { Select, Modal, Ripple, initTE } from "tw-elements";
+initTE({ Select, Modal, Ripple });
 
 // If you are using JavaScript/ECMAScript modules:
 import Dropzone from "dropzone";
@@ -40,13 +40,22 @@ const dropzone = new Dropzone("#dropzone", {
       }
 
       this.files = uploadedFiles;
-      this.options.maxFiles = 0; // Deshabilitar la opción de subir más archivos
+      this.options.maxFiles = 0; // Deshabilitar la opción de subir más archivos    
     }
   },
 });
 
 dropzone.on("success", function (file, response) {
-  document.querySelector('[name="id_documents"]').value = response.id;
+  console.log(response);
+  if (response['res'] === false) {
+    document.querySelector('[data-button-modal]').click();
+    document.querySelector('[name="id_documents"]').value = "";
+    dropzone.removeAllFiles();
+    dropzone.options.maxFiles = 2;
+    return 1
+  } else {
+    document.querySelector('[name="id_documents"]').value = response.id;
+  }
 });
 
 dropzone.on("removedfile", function () {
@@ -54,3 +63,5 @@ dropzone.on("removedfile", function () {
   dropzone.removeAllFiles();
   dropzone.options.maxFiles = 2;
 });
+
+

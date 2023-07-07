@@ -19,7 +19,7 @@
   <div class="flex justify-center m-3 items-center p-8 bg-white shadow rounded-lg">
     <div class="">
       <div class="bg-white w-full shadow-md rounded my-6">
-        <table class="text-left border-collapse">
+      <table class="text-left border-collapse">
       <thead>
         <tr>
           <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Id</th>
