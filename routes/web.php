@@ -21,10 +21,6 @@ use App\Http\Controllers\UserController;
 
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // Muestra el formulario para iniciar sesion
 Route::get('/login',[LoginController::class, 'index'])->name('login');
 // Realiza la consulta para iniciar sesion
@@ -38,6 +34,7 @@ Route::get('/crearCuenta', [RegisterController::class,'index'])->name('register'
 // Crea el registro de la cuenta
 Route::post('/crearCuenta', [RegisterController::class,'store']);
 
+// Gestiona las facturas
 Route::get('/facturas',[InvoiceController::class,'index'])->name('invoice.index');
 Route::get('/facturas/create',[InvoiceController::class, 'create'])->name('invoice.create');
 Route::post('/facturas',[InvoiceController::class, 'store'])->name('invoice.store');
@@ -45,9 +42,11 @@ Route::delete('/facturas/{invoice}',[InvoiceController::class, 'destroy'])->name
 Route::get('/facturas/{invoice}/edit',[InvoiceController::class,'edit'])->name('invoice.edit');
 Route::put('/facturas/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
 
+// Almacena el archivo 
 Route::post('/files',[FilesController::class,'store'])->name('files.store');
 Route::get('/files/{filename}',[InvoiceController::class, 'downloadFile'])->name('invoice.download');
 
+// Gestiona las empresas
 Route::get('/empresas',[CompanyController::class, 'index'])->name('company.index');
 Route::get('/empresas/create', [CompanyController::class, 'create'])->name('company.create');
 Route::post('/empresas',[CompanyController::class, 'store'])->name('company.store');
@@ -55,5 +54,6 @@ Route::delete('/empresa/{company}',[CompanyController::class, 'destroy'])->name(
 Route::get('/empresa/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
 Route::put('/empresa/{company}',[CompanyController::class, 'update'])->name('company.update');
 
+// Muestra la parte publica
 Route::get('/',[ClientController::class, 'index'])->name('client.index');
 Route::get('/search',[ClientController::class, 'search'])->name('client.search');

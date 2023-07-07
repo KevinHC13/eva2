@@ -9,10 +9,22 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
+    /**
+     * Crea una nueva instancia del controlador.
+     * Aplica el middleware 'auth' a todos los métodos.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Muestra el formulario de registro.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         return view('auth.register');

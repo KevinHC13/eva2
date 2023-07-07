@@ -7,11 +7,22 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    /**
+     * Crea una nueva instancia del controlador.
+     * Aplica el middleware 'auth' a todos los métodos excepto 'show' e 'index'.
+     *
+     * @return void
+     */
     public function __construct()
     {
-        // Aplica el middleware 'auth' a todos los métodos excepto 'show' e 'index'
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['show', 'index']);
     }
+    
+    /**
+     * Muestra una lista paginada de empresas.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $companies = Company::paginate(10);
@@ -21,14 +32,25 @@ class CompanyController extends Controller
         ]);
     }
 
+    /**
+     * Muestra el formulario de creación de una empresa.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create()
     {
         return view('company.create');
     }
 
+    /**
+     * Almacena una nueva empresa creada a partir de los datos del formulario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required|max:255',
             'email' => 'required|max:60|email',
             'address' => 'required|max:255',
@@ -45,6 +67,12 @@ class CompanyController extends Controller
         return redirect()->route('company.index');
     }
 
+    /**
+     * Elimina la empresa especificada.
+     *
+     * @param  \App\Models\Company  $company
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Company $company)
     {
         $this->authorize('delete', $company);
@@ -54,18 +82,31 @@ class CompanyController extends Controller
         return redirect()->route('company.index');
     }
 
+    /**
+     * Muestra el formulario de edición para la empresa especificada.
+     *
+     * @param  \App\Models\Company  $company
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit(Company $company)
     {
-        return view('company.edit',[
+        return view('company.edit', [
             'company' => $company,
         ]);
     }
 
+    /**
+     * Actualiza la empresa especificada con los datos del formulario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Company  $company
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Company $company)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required|max:255',
-            'email' => 'required|max:60||email',
+            'email' => 'required|max:60|email',
             'address' => 'required|max:255',
             'rfc' => 'required|max:13|min:12'
         ]);
@@ -78,8 +119,5 @@ class CompanyController extends Controller
         $company->save();
 
         return redirect()->route('company.index');
-
-
-        
     }
 }
