@@ -7,6 +7,7 @@
 
     <title>Facturas</title>
     @stack('styles')
+    @stack('js')
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
     

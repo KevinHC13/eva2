@@ -1,0 +1,14 @@
+ 
+<?xml version="1.0" encoding="UTF-8"?>
+<informacion>
+  <persona>
+    <nombre>John Doe</nombre>
+    <edad>30</edad>
+    <correo>john.doe@example.com</correo>
+  </persona>
+  <producto>
+    <nombre>Producto ABC</nombre>
+    <precio>19.99</precio>
+    <descripcion>Descripción del producto ABC</descripcion>
+  </producto>
+</informacion>

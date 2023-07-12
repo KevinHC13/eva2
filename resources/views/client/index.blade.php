@@ -42,6 +42,11 @@
     <p class="text-gray-900">Ingresa los datos y busque su factura</p>
     <form action="{{ route('client.search') }}" method="GET" class="w-1/2 mt-20 mb-20 " novalidate>
         @csrf
+        @if (session('mensaje'))
+          <p class="bg-red-500 text-white my-2 rounded-lg text-sm p-2 text-center" >
+              {{ session('mensaje') }}
+          </p>
+        @endif
         <div class="relative z-0 w-full mb-6 group">
             <input value="{{ old('issuing_company_rfc') }}" type="issuing_company_rfc" name="issuing_company_rfc" id="issuing_company_rfc" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
             <label for="issuing_company_rfc" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">RFC de empresa emisora</label>

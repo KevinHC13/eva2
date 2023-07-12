@@ -41,6 +41,9 @@ Route::post('/facturas',[InvoiceController::class, 'store'])->name('invoice.stor
 Route::delete('/facturas/{invoice}',[InvoiceController::class, 'destroy'])->name('invoice.destroy');
 Route::get('/facturas/{invoice}/edit',[InvoiceController::class,'edit'])->name('invoice.edit');
 Route::put('/facturas/{invoice}', [InvoiceController::class, 'update'])->name('invoice.update');
+Route::get('/facturas/pdf',[InvoiceController::class,'generarPDF'])->name('invoice.pdf');
+Route::get('/facturas/xml',[InvoiceController::class,'generarXML'])->name('invoice.xml');
+
 
 // Almacena el archivo 
 Route::post('/files',[FilesController::class,'store'])->name('files.store');
@@ -53,6 +56,9 @@ Route::post('/empresas',[CompanyController::class, 'store'])->name('company.stor
 Route::delete('/empresa/{company}',[CompanyController::class, 'destroy'])->name('company.destroy');
 Route::get('/empresa/{company}/edit', [CompanyController::class, 'edit'])->name('company.edit');
 Route::put('/empresa/{company}',[CompanyController::class, 'update'])->name('company.update');
+Route::get('/empresa/pdf',[CompanyController::class, 'generarPDF'])->name('company.pdf');
+Route::get('/empresa/xml',[CompanyController::class, 'generarXML'])->name('company.xml');
+
 
 // Muestra la parte publica
 Route::get('/',[ClientController::class, 'index'])->name('client.index');

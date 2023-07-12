@@ -10,6 +10,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+use Dompdf\Options;
+use Dompdf\Dompdf;
+
+use Illuminate\Support\Facades\Response;
+
 class InvoiceController extends Controller
 {
     /**
@@ -156,4 +161,84 @@ class InvoiceController extends Controller
 
         return redirect()->route('invoice.index');
     }
+
+    /**
+ * Genera un archivo PDF con los datos de las facturas.
+ *
+ * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+ */
+public function generarPDF()
+{
+    // Obtener los datos del modelo Invoice
+    $invoices = Invoice::all();
+
+    $data = [];
+
+    // Convertir los datos a un arreglo
+    foreach($invoices as $invoice){
+        $data[] = [$invoice->folio, $invoice->issuingCompany->name, $invoice->receivingCompany->name, $invoice->id_documents];
+    }
+
+    // Configurando Dompdf
+    $options = new Options();
+    $options->setIsHtml5ParserEnabled(true);
+    $options->set('isRemoteEnabled', true);
+
+    // Crear instancia de Dompdf
+    $dompdf = new Dompdf($options);
+
+    // Contenido HTML del PDF
+    $html = '<html><body>';
+    $html .= '<table style="border-collapse: collapse; width: 100%;">';
+    $html .= '<thead><th style="border: 1px solid #ddd; padding: 8px;">Folio</th><th style="border: 1px solid #ddd; padding: 8px;">Empresa Emisora</th><th style="border: 1px solid #ddd; padding: 8px;">Empresa Receptora</th><th style="border: 1px solid #ddd; padding: 8px;">Id del Archivo</th></thead>';
+    foreach ($data as $row) {
+        $html .= '<tr>';
+        foreach ($row as $cell) {
+            $html .= '<td style="border: 1px solid #ddd; padding: 8px;">' . $cell . '</td>';
+        }
+        $html .= '</tr>';
+    }
+    $html .= '</table>';
+    $html .= '</body></html>';
+
+    // Generar el PDF
+    $dompdf->loadHtml($html);
+    $dompdf->render();
+
+    // Descargar el PDF
+    return $dompdf->stream('invoice.pdf');
+}
+
+/**
+ * Genera un archivo XML con los datos de las facturas.
+ *
+ * @return \Illuminate\Http\Response
+ */
+public function generarXML()
+{
+    // Datos para la tabla
+    $invoices = Invoice::all();
+
+    // Construir el contenido XML
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    $xml .= '<invoices>';
+
+    foreach ($invoices as $invoice) {
+        $xml .= '<invoice>';
+        $xml .= '<folio>' . $invoice->folio . '</folio>';
+        $xml .= '<issuingCompany>' . $invoice->issuingCompany->name . '</issuingCompany>';
+        $xml .= '<receivingCompany>' . $invoice->receivingCompany->name . '</receivingCompany>';
+        $xml .= '<id_documents>' . $invoice->id_documents . '</id_documents>';
+        $xml .= '</invoice>';
+    }
+
+    $xml .= '</invoices>';
+
+    // Generar la respuesta HTTP con el contenido XML
+    return Response::make($xml, 200, [
+        'Content-Type' => 'text/xml',
+        'Content-Disposition' => 'attachment; filename="invoice.xml"',
+    ]);
+}
+
 }

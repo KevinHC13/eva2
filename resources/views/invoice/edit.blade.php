@@ -39,7 +39,7 @@
         @enderror
     </div>
     <div class="relative z-0 w-full mb-6 group">
-        <label for="receiving_company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
+        <label for="receiving_company_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia receptora</label>
         <select name="receiving_company_id" id="receiving_company_id" data-te-select-init data-te-select-filter="true">
             @foreach ($companies as $company)
                 <option value="{{ $company->id }}" @if($invoice->receiving_company_id == $company->id) selected @endif>
